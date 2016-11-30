@@ -1,0 +1,218 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: SQL HTTP Bridge
+  description: |
+    SQL HTTP Bridge serves as an HTTP/JSON API based bridge between client
+    software and various relational database servers.
+  version: "1.0.0"
+# the domain of the service
+host: sql-json-bridge
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+produces:
+  - application/json
+paths:
+  #v1.0 Endpoints
+  /query:
+    options:
+      summary: Database Endpoint Options
+      description: |
+        The Database Endpoint Options endpoint will return all available
+        database endpoints, and information associated with them.
+      tags:
+        - Databases
+      responses:
+        200:
+          description: An array of available database endpoints.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/DatabaseOption"
+        401:
+          description: Unauthorized to access this resource.
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      summary: Perform a Query
+      description: |
+        Perform an arbitrary query against a configured database. This
+        endpoint takes the database as part of the json body.
+      tags:
+        - Queries
+      responses:
+        200:
+          description: Database results
+          schema:
+            $ref: '#/definitions/ResultSet'
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: Unauthorized to access SQL-HTTP-Bridge.
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: Forbidden to access this endpoint.
+          schema:
+            $ref: '#/definitions/Error'
+        422:
+          description: The Database Server could not process your query.
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+           description: Unexpected Error
+          schema:
+            $ref: "#/definitions/Error"
+
+
+
+
+  # Legacy Endpoints
+  /list:
+    get:
+      summary: List Databases endpoint
+      description: |
+        List all configured and available database endpoints for use with
+        the /query/{database_name} endpoint.
+      tags:
+        - Databases
+        - Legacy
+      responses:
+        200:
+          description: An array of database names
+          schema:
+            $ref: "#/definitions/DatabaseList"
+  /query/{database_name}:
+    post:
+      summary: Query Endpoint
+      description: |
+        The Query endpoint accepts arbitrary SQL based queries, and returns
+        database results as json items, with keys as column headers.
+      parameters:
+        - name: database_name
+          in: path
+          description: Latitude component of location.
+          required: true
+          type: string
+      tags:
+        - Legacy
+        - Queries
+      responses:
+        200:
+          description: An array of database results
+          schema:
+            $ref: '#/definitions/ResultSet'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /update/{database_identifier}:
+    post:
+      summary: Query Endpoint
+      description: |
+        The Query endpoint accepts arbitrary SQL based queries, and returns
+        database results as json items, with keys as column headers.
+      parameters:
+        - name: database_identifier
+          in: path
+          description: Latitude component of location.
+          required: true
+          type: string
+      tags:
+        - Legacy
+        - Queries
+      responses:
+        200:
+          description: An array of database results
+          schema:
+            $ref: '#/definitions/ResultSet'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  DatabaseOption:
+    description: |
+      A database connection specification for a single configured
+      database.The specific details exposed will vary from driver
+      to driver, and can typically be hidden on an option by option
+      basis per database. endpoints will always be exposed.
+    type: object
+    properties:
+      identifier:
+        type: string
+        description: |
+          The identifier by which this particular database is known
+          to SQL-HTTP-Bridge. This identifier may be regex based, and
+          matching groups can be used in variables for configuration
+          properties.
+      endpoints:
+        description: |
+          An array of available endpoints for the spec
+        type: array
+        items:
+          type: object
+          properties:
+            endpoint_url:
+              type: string
+            endpoint_type:
+              type: string
+      options:
+        type: object
+        properties:
+          driver:
+            type: string
+          hostname:
+            type: string
+          username:
+            type: string
+
+  ResultSet:
+    type: object
+    properties:
+      result:
+        type: array
+        description: |
+          Array of result objects returned from a query. Each result
+          object will represent one row from the sql response.
+        items:
+          type: object
+          description: |
+            Result objects represent a single row in the result set. Keys
+            will be column names, values will be column data items.
+      rows_matched:
+        type: integer
+        description: Number of rows matched by select or update.
+  DatabaseList:
+    type: object
+    properties:
+      databases:
+        type: array
+        description: |
+          Array of available database endpoints for use with the /query
+          endpoint.
+        items:
+          type: string
+          description: database name
+  UnauthorizedError:
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

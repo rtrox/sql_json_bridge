@@ -1,0 +1,7 @@
+"""Base Configuration object for sql_json_bridge."""
+
+DEBUG = False
+TESTING = False
+JSONIFY_PRETTYPRINT_REGULAR = True
+JSON_SORT_KEYS = True
+DATABASE_CONFIG_DIRECTORY = "/etc/sql_json_bridge/databases/"
