@@ -20,7 +20,7 @@ from logging.handlers import TimedRotatingFileHandler
 
 from flask import Flask, jsonify
 
-from sql_json_bridge.config import load_database_configs
+from config import load_database_configs
 
 from werkzeug.exceptions import HTTPException
 from werkzeug.exceptions import default_exceptions
