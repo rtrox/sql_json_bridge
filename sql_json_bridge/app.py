@@ -60,10 +60,10 @@ def configure_app(app):
         pass
 
     app.config["DATABASES"] = load_database_configs(
-        app.config["DATABASE_CONFIG_LOCATION"]
+        app.config.get("DATABASE_CONFIG_LOCATION")
     )
 
-    if app.config.get("LEGACY_SUPPORT"):
+    if app.config.get("LEGACY_SUPPORT", False):
         from legacy.views import legacy
         DEFAULT_BLUEPRINTS.append(legacy)
 
