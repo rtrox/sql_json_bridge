@@ -16,7 +16,7 @@
 
 import logging
 
-from logging.handlers import FileHandler
+from logging.handlers import TimedRotatingFileHandler
 
 from flask import Flask, jsonify
 
