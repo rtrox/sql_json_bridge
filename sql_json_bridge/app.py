@@ -63,8 +63,8 @@ def configure_app(app):
         app.config["DATABASE_CONFIG_LOCATION"]
     )
 
-    if app.config["LEGACY_SUPPORT"]:
-        from sql_json_bridge.legacy.views import legacy
+    if app.config.get("LEGACY_SUPPORT"):
+        from legacy.views import legacy
         DEFAULT_BLUEPRINTS.append(legacy)
 
     for code in default_exceptions.iterkeys():

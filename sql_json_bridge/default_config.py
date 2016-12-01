@@ -4,4 +4,4 @@ DEBUG = False
 TESTING = False
 JSONIFY_PRETTYPRINT_REGULAR = True
 JSON_SORT_KEYS = True
-DATABASE_CONFIG_DIRECTORY = "/etc/sql_json_bridge/databases/"
+DATABASE_CONFIG_LOCATION = "/etc/sql_json_bridge/databases/"
