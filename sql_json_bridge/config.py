@@ -68,11 +68,11 @@ class DbConfig(object):
             to_replace = obj.finditer(r'{{([0-9]+)}}')
             for i in to_replace:
                 key = int(re.search(r'\d+', i).group())
-                obj.replace(, args[key])
+                obj.replace(i, args[key])
 
         elif isinstance(obj, dict):
             for k, v in obj.items:
-                obj[k] = populate_args(v)
+                obj[k] = self.populate_args(v)
 
         return obj
 
