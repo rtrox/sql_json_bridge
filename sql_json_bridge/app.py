@@ -74,7 +74,7 @@ def configure_app(app):
 def configure_logging(app):
     """Add Rotating Handler to app."""
     logfile = app.config.get('LOG_FILE')
-    handler = FileHandler(
+    handler = TimedRotatingFileHandler(
         logfile,
         when="D",
         interval=1,
