@@ -53,7 +53,7 @@ def configure_blueprints(app, blueprints):
 
 def configure_app(app):
     """Retrieve App Configuration."""
-    app.config.from_object('sql_json_bridge.default_config')
+    app.config.from_object('default_config')
     try:
         app.config.from_envvar('SQL_JSON_BRIDGE_CONFIG')
     except:
