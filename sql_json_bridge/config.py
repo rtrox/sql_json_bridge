@@ -47,7 +47,7 @@ class DbConfig(object):
                 yaml.load(f.read())
             )
         self.store["identifier"] = re.compile(self.store["identifier"])
-        self.driver = load_db_driver(self.store["driver"]), self)
+        self.driver = load_db_driver(self.store["driver"], self)
 
     def populate_args(self, obj, args):
         """
@@ -64,12 +64,18 @@ class DbConfig(object):
         :param list args: list of arguments for population.
         :rtype string:
         """
-        if type(obj) == str:
+        if isinstance(obj, str):
             to_replace = obj.finditer(r'{{([0-9]+)}}')
             for i in to_replace:
-                key = int(re.search(r'\d+', item).group())
-                obj.replace(item, args[key])
-            return obj
+                key = int(re.search(r'\d+', i).group())
+                obj.replace(, args[key])
+
+        elif isinstance(obj, dict):
+            for k, v in obj.items:
+                obj[k] = populate_args(v)
+
+        return obj
+
 
     def get_item(self, database_name, key):
         """
