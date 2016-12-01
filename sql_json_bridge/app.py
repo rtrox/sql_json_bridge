@@ -67,8 +67,8 @@ def configure_app(app):
         from legacy.views import legacy
         DEFAULT_BLUEPRINTS.append(legacy)
 
-    for code in default_exceptions.iterkeys():
-        app.error_handler_spec[None][code] = make_json_error
+    # for code in default_exceptions.iterkeys():
+    #     app.error_handler_spec[None][code] = make_json_error
 
 
 def configure_logging(app):
