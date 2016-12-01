@@ -17,7 +17,7 @@
 import os
 import re
 
-from sql_json_bridge.db_drivers import load_db_driver
+from db_drivers import load_db_driver
 
 import yaml
 

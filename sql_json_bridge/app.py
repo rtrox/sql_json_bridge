@@ -18,9 +18,9 @@ import logging
 
 from logging.handlers import TimedRotatingFileHandler
 
-from flask import Flask, jsonify
-
 from config import load_database_configs
+
+from flask import Flask, jsonify
 
 from werkzeug.exceptions import HTTPException
 from werkzeug.exceptions import default_exceptions
