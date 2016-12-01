@@ -74,7 +74,13 @@ def configure_app(app):
 def configure_logging(app):
     """Add Rotating Handler to app."""
     logfile = app.config.get('LOG_FILE')
-    handler = FileHandler(logfile)
+    handler = FileHandler(
+        logfile,
+        when="D",
+        interval=1,
+        backupCount=14,
+        utc=True
+    )
     formatter = logging.Formatter(
         "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
     )
