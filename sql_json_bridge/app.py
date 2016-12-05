@@ -47,6 +47,10 @@ def make_json_error(ex):
 
 def configure_blueprints(app, blueprints):
     """Configure blueprints in views."""
+    if app.config.get("LEGACY_SUPPORT", False):
+        from legacy.views import legacy
+        blueprints.append(legacy)
+
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
 
@@ -59,13 +63,9 @@ def configure_app(app):
     except:
         pass
 
-    app.config["DATABASES"] = load_database_configs(
+    load_database_configs(
         app.config.get("DATABASE_CONFIG_LOCATION")
     )
-
-    if app.config.get("LEGACY_SUPPORT", False):
-        from legacy.views import legacy
-        DEFAULT_BLUEPRINTS.append(legacy)
 
     # for code in default_exceptions.iterkeys():
     #     app.error_handler_spec[None][code] = make_json_error
