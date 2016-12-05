@@ -83,5 +83,5 @@ class DbConfig(object):
         "{{\d}}" will be replaced with the corresponding zero-indexed regex
         group (regex group 1 becomes 0, etc).
         """
-        args = self["identifier"].match(database_name).groups()
+        args = self.store["identifier"].match(database_name).groups()
         return self.populate_args(self.store[key], args)
