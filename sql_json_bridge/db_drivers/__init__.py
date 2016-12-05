@@ -38,6 +38,6 @@ def load_db_driver(driver_name, database_config):
         namespace="sql_json_bridge.ext.database_driver",
         name=driver_name,
         invoke_on_load=True,
-        invoke_args=((database_config,),
+        invoke_args=((database_config,))
     )
     return mgr.driver
