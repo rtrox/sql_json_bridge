@@ -67,8 +67,8 @@ def configure_app(app):
         app.config.get("DATABASE_CONFIG_LOCATION")
     )
 
-    # for code in default_exceptions.iterkeys():
-    #     app.error_handler_spec[None][code] = make_json_error
+    for code in default_exceptions.iterkeys():
+        app.error_handler_spec[None][code] = make_json_error
 
 
 def configure_logging(app):
