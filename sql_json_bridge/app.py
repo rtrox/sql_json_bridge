@@ -71,22 +71,12 @@ def configure_logging(app):
 
 def create_app(app_name=None, blueprints=None):
     """Create the flask app."""
-    def make_json_error(ex):
-        response = jsonify(message=str(ex))
-        response.status_code = (ex.code
-                                if isinstance(ex, HTTPException)
-                                else 500)
-        return response
-
     if app_name is None:
         app_name = "sql_json_bridge"
     if blueprints is None:
         blueprints = DEFAULT_BLUEPRINTS
 
     app = Flask(app_name)
-
-    for code in default_exceptions.iterkeys():
-        app.error_handler_spec[None][code] = make_json_error
 
     configure_app(app)
     configure_logging(app)
