@@ -59,7 +59,7 @@ def run_query(database_name):
 
 @legacy.route("/list")
 def list():
-    current_app.app.config["DATABASES"] = load_database_configs(
+    current_app.config["DATABASES"] = load_database_configs(
         current_app.config["DATABASE_CONFIG_LOCATION"]
     )
     configs = current_app.config["DATABASES"].values()
