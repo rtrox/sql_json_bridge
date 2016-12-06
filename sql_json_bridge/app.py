@@ -22,27 +22,10 @@ from config import load_database_configs
 
 from flask import Flask, jsonify
 
-from werkzeug.exceptions import HTTPException
 from werkzeug.exceptions import default_exceptions
+from werkzeug.exceptions import HTTPException
 
 DEFAULT_BLUEPRINTS = []
-
-
-def make_json_error(ex):
-    """
-    Return a jsonified default http error code.
-
-    All error responses that you don't specifically
-    manage yourself will have application/json content
-    type, and will contain JSON like this (just an example):
-
-    { "message": "405: Method Not Allowed" }
-    """
-    response = jsonify(message=str(ex))
-    response.status_code = (ex.code
-                            if isinstance(ex, HTTPException)
-                            else 500)
-    return response
 
 
 def configure_blueprints(app, blueprints):
@@ -67,9 +50,6 @@ def configure_app(app):
         app.config.get("DATABASE_CONFIG_LOCATION")
     )
 
-    for code in default_exceptions.iterkeys():
-        app.error_handler_spec[None][code] = make_json_error
-
 
 def configure_logging(app):
     """Add Rotating Handler to app."""
@@ -91,12 +71,22 @@ def configure_logging(app):
 
 def create_app(app_name=None, blueprints=None):
     """Create the flask app."""
+    def make_json_error(ex):
+        response = jsonify(message=str(ex))
+        response.status_code = (ex.code
+                                if isinstance(ex, HTTPException)
+                                else 500)
+        return response
+
     if app_name is None:
         app_name = "sql_json_bridge"
     if blueprints is None:
         blueprints = DEFAULT_BLUEPRINTS
 
     app = Flask(app_name)
+
+    for code in default_exceptions.iterkeys():
+        app.error_handler_spec[None][code] = make_json_error
 
     configure_app(app)
     configure_logging(app)
