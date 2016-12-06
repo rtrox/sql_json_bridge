@@ -63,7 +63,7 @@ def configure_app(app):
     except:
         pass
 
-    load_database_configs(
+    app.config["DATABASES"] = load_database_configs(
         app.config.get("DATABASE_CONFIG_LOCATION")
     )
 
@@ -104,7 +104,6 @@ def create_app(app_name=None, blueprints=None):
     configure_blueprints(app, blueprints)
 
     return app
-
 
 
 if __name__ == "__main__":

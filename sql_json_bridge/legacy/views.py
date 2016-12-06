@@ -49,10 +49,10 @@ def run_query(database_name):
     if sql is None:
         return jsonify(ERROR="SQL query missing from request."), 400
 
-    try:
-        result = db.run_query(sql)
-    except Exception as e:
-        return jsonify(ERROR=": ".join(str(i) for i in e.args)), 422
+    # try:
+    result = db.run_query(sql)
+    # except Exception as e:
+    #     return jsonify(ERROR=": ".join(str(i) for i in e.args)), 422
 
     return jsonify(result=result)
 
