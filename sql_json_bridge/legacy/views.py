@@ -57,9 +57,9 @@ def run_query(database_name):
     return jsonify(result=result)
 
 
-@legacy.list("/list")
+@legacy.route("/list")
 def list():
-    current_app.config["DATABASES"] = load_database_configs(
+    load_database_configs(
         current_app.config["DATABASE_CONFIG_LOCATION"]
     )
     configs = current_app.config["DATABASES"].values()
