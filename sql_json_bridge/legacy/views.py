@@ -63,4 +63,4 @@ def list():
         current_app.config["DATABASE_CONFIG_LOCATION"]
     )
     configs = current_app.config["DATABASES"].values()
-    return jsonify([str(config["identifier"]) for config in configs])
+    return jsonify([str(config.store["identifier"]) for config in configs])
