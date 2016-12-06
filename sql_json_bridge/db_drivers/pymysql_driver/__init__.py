@@ -47,10 +47,10 @@ class MySQLDriver(DatabaseDriver):
         :returns: The results of the query.
         :rtype: list(dict:?)
         """
-        try:
-            connection = self.connect()
-            with connection.cursor() as cur:
-                cur.execute(query_string)
-                return cur.fetchall()
-        finally:
-            connection.close()
+        # try:
+        connection = self.connect()
+        with connection.cursor() as cur:
+            cur.execute(query_string)
+            return cur.fetchall()
+        # finally:
+        connection.close()
