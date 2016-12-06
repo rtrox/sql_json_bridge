@@ -29,6 +29,7 @@ def load_database_configs(directory):
             if f.endswith(('.yml', '.yaml')):
                 conf = DbConfig(os.path.join(dirpath, f))
                 databases[conf.store['identifier']] = conf
+    return databases
 
 
 class DbConfig(object):
