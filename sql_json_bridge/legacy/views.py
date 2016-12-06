@@ -31,8 +31,8 @@ def get_database_config(database_name):
             return current_app.config["DATABASES"][db]
 
 
-@legacy.route("/query/<database_name>")
-@legacy.route("/update/<database_name>")
+@legacy.route("/query/<database_name>", methods=["POST", "GET"])
+@legacy.route("/update/<database_name>", methods=["POST", "GET"])
 def run_query(database_name):
     # TODO: Write something...
     db = get_database_config(database_name).driver
